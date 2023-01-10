@@ -1,46 +1,39 @@
-export PORT=${PORT-8080}
-export id=${idc5a0fa348ec94b029e014e3a9e30e206}
-export PATH_vless=${PATH_vless-/vless/$id}
-export PATH_trojan=${PATH_trojan-/trojan/$id}
-export PATH_vmess=${PATH_vmess-/vmess/$id}
-export PATH_shadowsocks=${PATH_shadowsocks-/shadowsocks/$id}
-
-
-echo '
- {
-    "log": {"loglevel": "warning"},
+echo '{
+    "log": {
+        "loglevel": "warning"
+    },
     "inbounds": [
         {
-            "port": 4000,
+            "port": '$PORT',
             "protocol": "vless",
             "settings": {
                 "clients": [
                     {
-                        "id": "'$id'"
+                        "id": "'$id'",
+                        "flow": "xtls-rprx-direct"
                     }
                 ],
                 "decryption": "none",
                 "fallbacks": [
                     {
-                        "path": "'${PATH_vless}'",
-                        "dest": 4001
-                    },{
-                        "path": "'${PATH_trojan}'",
-                        "dest": 4002
-                    },{
-                        "path": "'${PATH_vmess}'",
-                        "dest": 4003
-                    },{
-                        "path": "'${PATH_shadowsocks}'",
-                        "dest": 4004
+                        "dest": 3001
+                    },
+                    {
+                        "path": "/c5a0fa34-8ec9-4b02-9e01-4e3a9e30e206-trojan",
+                        "dest": 3002
+                    },
+                    {
+                        "path": "/c5a0fa34-8ec9-4b02-9e01-4e3a9e30e206-vmess",
+                        "dest": 3003
                     }
                 ]
             },
             "streamSettings": {
                 "network": "tcp"
             }
-        },{
-            "port": 4001,
+        },
+        {
+            "port": 3001,
             "listen": "127.0.0.1",
             "protocol": "vless",
             "settings": {
@@ -53,13 +46,11 @@ echo '
             },
             "streamSettings": {
                 "network": "ws",
-                "security": "none",
-                "wsSettings": {
-                    "path": "'${PATH_vless}'"
-                }
+                "security": "none"
             }
-        },{
-            "port": 4002,
+        },
+        {
+            "port": 3002,
             "listen": "127.0.0.1",
             "protocol": "trojan",
             "settings": {
@@ -73,11 +64,12 @@ echo '
                 "network": "ws",
                 "security": "none",
                 "wsSettings": {
-                    "path": "'${PATH_trojan}'"
+                    "path": "/c5a0fa34-8ec9-4b02-9e01-4e3a9e30e206-trojan"
                 }
             }
-        },{
-            "port": 4003,
+        },
+        {
+            "port": 3003,
             "listen": "127.0.0.1",
             "protocol": "vmess",
             "settings": {
@@ -91,24 +83,9 @@ echo '
                 "network": "ws",
                 "security": "none",
                 "wsSettings": {
-                    "path": "'${PATH_vmess}'"
+                    "path": "/c5a0fa34-8ec9-4b02-9e01-4e3a9e30e206-vmess"
                 }
             }
-        },{
-          "port": 4004,
-          "protocol": "shadowsocks",
-          "settings": {
-            "method": "chacha20-ietf-poly1305",
-            "password": "'$id'",
-            "network": "tcp,udp"
-          },
-          "streamSettings": {
-            "network": "ws",
-            "security": "none",
-            "wsSettings": {
-                "path": "'${PATH_shadowsocks}'"
-            }
-          }
         }
     ],
     "outbounds": [
@@ -116,7 +93,7 @@ echo '
             "protocol": "freedom"
         }
     ]
-}
-' > config.json
+}' > config.json
+
 chmod +x ./web
 ./web -config=config.json
