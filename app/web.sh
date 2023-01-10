@@ -4,7 +4,36 @@ echo '{
     },
     "inbounds": [
         {
-            "port": 4001,
+            "port": '$PORT',
+            "protocol": "vless",
+            "settings": {
+                "clients": [
+                    {
+                        "id": "'$id'",
+                        "flow": "xtls-rprx-direct"
+                    }
+                ],
+                "decryption": "none",
+                "fallbacks": [
+                    {
+                        "dest": 3001
+                    },
+                    {
+                        "path": "/c5a0fa34-8ec9-4b02-9e01-4e3a9e30e206-trojan",
+                        "dest": 3002
+                    },
+                    {
+                        "path": "/c5a0fa34-8ec9-4b02-9e01-4e3a9e30e206-vmess",
+                        "dest": 3003
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "tcp"
+            }
+        },
+        {
+            "port": 3001,
             "listen": "127.0.0.1",
             "protocol": "vless",
             "settings": {
@@ -17,13 +46,11 @@ echo '{
             },
             "streamSettings": {
                 "network": "ws",
-                "security": "none",
-                "wsSettings": {
-                    "path": "/c5a0fa34-8ec9-4b02-9e01-4e3a9e30e206-vless"
-                }
+                "security": "none"
             }
-        },{
-            "port": 4002,
+        },
+        {
+            "port": 3002,
             "listen": "127.0.0.1",
             "protocol": "trojan",
             "settings": {
@@ -40,8 +67,9 @@ echo '{
                     "path": "/c5a0fa34-8ec9-4b02-9e01-4e3a9e30e206-trojan"
                 }
             }
-        },{
-            "port": 4003,
+        },
+        {
+            "port": 3003,
             "listen": "127.0.0.1",
             "protocol": "vmess",
             "settings": {
@@ -58,21 +86,6 @@ echo '{
                     "path": "/c5a0fa34-8ec9-4b02-9e01-4e3a9e30e206-vmess"
                 }
             }
-        },{
-          "port": 4004,
-          "protocol": "shadowsocks",
-          "settings": {
-            "method": "chacha20-ietf-poly1305",
-            "password": "c5a0fa348ec94b029e014e3a9e30e206",
-            "network": "tcp,udp"
-          },
-          "streamSettings": {
-            "network": "ws",
-            "security": "none",
-            "wsSettings": {
-                "path": "/c5a0fa34-8ec9-4b02-9e01-4e3a9e30e206-shadowsocks"
-            }
-          }
         }
     ],
     "outbounds": [
