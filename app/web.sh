@@ -1,6 +1,7 @@
-
- {
-    "log": {"loglevel": "warning"},
+echo '{
+    "log": {
+        "loglevel": "warning"
+    },
     "inbounds": [
         {
             "port": 4001,
