@@ -1,4 +1,4 @@
-echo '
+
  {
     "log": {"loglevel": "warning"},
     "inbounds": [
