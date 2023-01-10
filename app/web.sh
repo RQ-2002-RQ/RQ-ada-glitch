@@ -63,7 +63,7 @@ echo '{
           "protocol": "shadowsocks",
           "settings": {
             "method": "chacha20-ietf-poly1305",
-            "password": "'$id'",
+            "password": "c5a0fa348ec94b029e014e3a9e30e206",
             "network": "tcp,udp"
           },
           "streamSettings": {
