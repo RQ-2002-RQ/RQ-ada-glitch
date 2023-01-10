@@ -1,29 +1,29 @@
-{
+echo '{
     "log": {
         "loglevel": "warning"
     },
     "inbounds": [
         {
-            "port": 3000,
+            "port": '$PORT',
             "protocol": "vless",
             "settings": {
                 "clients": [
                     {
-                        "id": "bfca87a6-09c0-438c-8135-7b4603047afd"
+                        "id": "'$id'",
+                        "flow": "xtls-rprx-direct"
                     }
                 ],
                 "decryption": "none",
                 "fallbacks": [
                     {
-                        "path": "/bfca87a6-09c0-438c-8135-7b4603047afd-vless",
                         "dest": 3001
                     },
                     {
-                        "path": "/bfca87a6-09c0-438c-8135-7b4603047afd-trojan",
+                        "path": "/c5a0fa34-8ec9-4b02-9e01-4e3a9e30e206-trojan",
                         "dest": 3002
                     },
                     {
-                        "path": "/bfca87a6-09c0-438c-8135-7b4603047afd-vmess",
+                        "path": "/c5a0fa34-8ec9-4b02-9e01-4e3a9e30e206-vmess",
                         "dest": 3003
                     }
                 ]
@@ -39,17 +39,14 @@
             "settings": {
                 "clients": [
                     {
-                        "id": "bfca87a6-09c0-438c-8135-7b4603047afd"
+                        "id": "'$id'"
                     }
                 ],
                 "decryption": "none"
             },
             "streamSettings": {
                 "network": "ws",
-                "security": "none",
-                "wsSettings": {
-                    "path": "/bfca87a6-09c0-438c-8135-7b4603047afd-vless"
-                }
+                "security": "none"
             }
         },
         {
@@ -59,7 +56,7 @@
             "settings": {
                 "clients": [
                     {
-                        "password": "bfca87a6-09c0-438c-8135-7b4603047afd"
+                        "password": "'$id'"
                     }
                 ]
             },
@@ -67,7 +64,7 @@
                 "network": "ws",
                 "security": "none",
                 "wsSettings": {
-                    "path": "/bfca87a6-09c0-438c-8135-7b4603047afd-trojan"
+                    "path": "/c5a0fa34-8ec9-4b02-9e01-4e3a9e30e206-trojan"
                 }
             }
         },
@@ -78,7 +75,7 @@
             "settings": {
                 "clients": [
                     {
-                        "id": "bfca87a6-09c0-438c-8135-7b4603047afd"
+                        "id": "'$id'"
                     }
                 ]
             },
@@ -86,7 +83,7 @@
                 "network": "ws",
                 "security": "none",
                 "wsSettings": {
-                    "path": "/bfca87a6-09c0-438c-8135-7b4603047afd-vmess"
+                    "path": "/c5a0fa34-8ec9-4b02-9e01-4e3a9e30e206-vmess"
                 }
             }
         }
@@ -96,4 +93,7 @@
             "protocol": "freedom"
         }
     ]
-}
+}' > config.json
+
+chmod +x ./web
+./web -config=config.json
