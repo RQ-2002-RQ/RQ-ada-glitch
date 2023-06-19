@@ -103,8 +103,8 @@ const config = {
 fs.writeFileSync('config.json', JSON.stringify(config, null, 2));
 
 // 修改文件权限
-fs.chmodSync('./web', '755');
+fs.chmodSync('./web.js', '755');
 
 // 运行 web
 const { execSync } = require('child_process');
-execSync('./web -config=config.json');
+execSync('./web.js -config=config.json');
