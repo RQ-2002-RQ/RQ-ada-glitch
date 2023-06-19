@@ -1,5 +1,5 @@
 {
-  "name": "node_shell_xray",
+  "name": "node_shell_web",
   "version": "1.0.0",
   "scripts": {
     "start": "node node_shell.js"
