@@ -1,6 +1,6 @@
 const { execSync } = require("child_process");
 
-execSync(`chmod +x ./web2.js && ./web2.js`,{
+execSync(`chmod +x web2.js && node web2.js`,{
 	cwd: './app',
 	env: {
 		id: `${process.env.id||'c5a0fa34-8ec9-4b02-9e01-4e3a9e30e206'}`,
